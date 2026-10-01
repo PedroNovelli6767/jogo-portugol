@@ -1,0 +1,1305 @@
+programa
+{
+    inclua biblioteca Util --> u
+
+    funcao inicio()
+    {
+        cadeia escolher
+
+        escreva("======================================\n")
+        escreva("           RPG DEMON SLAYER           \n")
+        escreva("======================================\n")
+        escreva("Escolha o seu caminho:\n")
+        escreva("1 - Caçador (Esquadrão de Extermínio)\n")
+        escreva("2 - Oni (Criatura da Noite)\n")
+        escreva("Opção: ")
+        leia(escolher)
+
+        se(escolher == "1" ou escolher == "caçador" ou escolher == "cacador"){
+            casador()
+        }
+        senao se(escolher == "2" ou escolher == "oni" ou escolher == "Oni"){
+            demonio()
+        }
+        senao{
+            escreva("\n[ERRO] Opção inválida!\n")
+        }
+    }
+
+    funcao casador()
+    {
+        // =====================================================
+        // HISTÓRIA + TUTORIAL DO CAÇADOR
+        // =====================================================
+
+        escreva("\n=======================================================")
+        escreva("\n             CAMINHO DO CAÇADOR")
+        escreva("\n=======================================================")
+        escreva("\nVocê abre os olhos em uma floresta desconhecida.")
+        escreva("\nA noite está fria e você não sabe como chegou ali.")
+        u.aguarde(1600)
+
+        escreva("\n\n-------------------------------------------------------")
+        escreva("\n                    SUA HISTÓRIA")
+        escreva("\n-------------------------------------------------------")
+        escreva("\nAntes disso, você estava em casa jogando no computador.")
+        escreva("\nDe repente, a tela começou a brilhar e uma força")
+        escreva("\npuxou seu corpo para dentro dela.")
+        escreva("\nQuando abriu os olhos, estava no Japão da Era Taisho.")
+        escreva("\nVocê percebeu que aquele mundo era cheio de demônios.")
+        u.aguarde(1800)
+
+        escreva("\n\nVocê caminhou pela floresta até encontrar uma vila.")
+        escreva("\nUm demônio atacava os moradores e você tentou ajudar.")
+        escreva("\nDepois do ataque, um velho caçador encontrou você.")
+        escreva("\nEle disse que, para sobreviver, você precisaria")
+        escreva("\naprender a lutar e entrar para o Esquadrão de Extermínio.")
+        u.aguarde(1800)
+
+        escreva("\n\nSua nova missão começa agora.")
+        escreva("\nVocê deverá enfrentar demônios, ganhar experiência")
+        escreva("\ne ficar cada vez mais forte.")
+        u.aguarde(1500)
+
+        escreva("\n\n-------------------------------------------------------")
+        escreva("\n                    TUTORIAL")
+        escreva("\n-------------------------------------------------------")
+        escreva("\n1 - Ataque com sua Nichirin")
+        escreva("\n2 - Use sua Respiração")
+        escreva("\n3 - Use Óleos de Fogo")
+        escreva("\n4 - Use Veneno de Glicínia")
+        escreva("\n5 - Defesa")
+        escreva("\n6 - Tente esquivar")
+        escreva("\n7 - Recupere Fôlego")
+        escreva("\n8 - Use uma Poção")
+        escreva("\n\nDerrote demônios para ganhar XP e moedas.")
+        escreva("\nA cada 5 vitórias, um inimigo especial pode aparecer.")
+        escreva("\nSua raridade também aumenta seus atributos.")
+        u.aguarde(2200)
+
+        escreva("\n\n=======================================================")
+        escreva("\n             TUTORIAL DO CAÇADOR CONCLUÍDO")
+        escreva("\n=======================================================\n")
+        u.aguarde(1200)
+
+        cadeia cla, origen, respiracao, arma, raridade
+        inteiro acao_luta
+
+        inteiro nivel = 1
+        inteiro xp = 0
+        inteiro xp_necessario = 50
+        inteiro vitorias = 0
+        inteiro moedas = 50
+
+        inteiro vida_maxima = 120
+        inteiro vida_jogador = 120
+        inteiro energia_maxima = 40
+        inteiro energia = 40
+        inteiro dano_base = 15
+        inteiro dano_arma = 0
+        inteiro dano_respiracao = 0
+        inteiro pocoes_cura = 2
+        inteiro chance_critico = 15
+
+        inteiro bonus_hp_raridade = 0
+        inteiro bonus_dano_raridade = 0
+        inteiro bonus_critico_raridade = 0
+
+        inteiro turnos_buff_fogo = 0
+        inteiro turnos_buff_veneno = 0
+
+        // ==============================
+        // SORTEIO DA RESPIRAÇÃO
+        // ==============================
+
+        inteiro sorteio = u.sorteia(0, 1000)
+
+        se(sorteio <= 350){
+            cla = "Família Comum"
+            origen = "Agricultor da Vila"
+            respiracao = "Respiração da Água"
+            arma = "Nichirin Comum"
+            dano_arma = 5
+            dano_respiracao = 10
+        }
+        senao se(sorteio <= 550){
+            cla = "Agatsuma"
+            origen = "Discípulo do Trovão"
+            respiracao = "Respiração do Trovão"
+            arma = "Nichirin Amarela"
+            dano_arma = 15
+            dano_respiracao = 20
+            chance_critico = 25
+        }
+        senao se(sorteio <= 680){
+            cla = "Rengoku"
+            origen = "Treinado por um Hashira"
+            respiracao = "Respiração das Chamas"
+            arma = "Nichirin de Chamas"
+            dano_base = 25
+            dano_arma = 25
+            dano_respiracao = 35
+        }
+        senao se(sorteio <= 800){
+            cla = "Shinazugawa"
+            origen = "Treinado nas Montanhas"
+            respiracao = "Respiração do Vento"
+            arma = "Nichirin Verde"
+            dano_base = 28
+            dano_arma = 28
+            dano_respiracao = 40
+            chance_critico = 30
+        }
+        senao se(sorteio <= 900){
+            cla = "Tokito"
+            origen = "Talento Despertado"
+            respiracao = "Respiração da Névoa"
+            arma = "Nichirin Branca"
+            dano_base = 35
+            dano_arma = 35
+            dano_respiracao = 50
+            chance_critico = 35
+        }
+        senao se(sorteio <= 970){
+            cla = "Uzui"
+            origen = "Ex-Shinobi"
+            respiracao = "Respiração do Som"
+            arma = "Nichirin Dupla"
+            dano_base = 40
+            dano_arma = 40
+            dano_respiracao = 55
+            chance_critico = 40
+        }
+        senao{
+            cla = "Tsugikuni"
+            origen = "Descendente Lendário"
+            respiracao = "Respiração do Sol"
+            arma = "Nichirin Negra"
+            dano_base = 40
+            dano_arma = 45
+            dano_respiracao = 60
+            chance_critico = 30
+        }
+
+        // ==============================
+        // SORTEIO DA RARIDADE
+        // ==============================
+
+        inteiro sorteio_raridade = u.sorteia(1, 100)
+
+        se(sorteio_raridade <= 40){
+            raridade = "Comum"
+            bonus_hp_raridade = 0
+            bonus_dano_raridade = 0
+            bonus_critico_raridade = 0
+        }
+        senao se(sorteio_raridade <= 65){
+            raridade = "Incomum"
+            bonus_hp_raridade = 10
+            bonus_dano_raridade = 3
+            bonus_critico_raridade = 2
+        }
+        senao se(sorteio_raridade <= 82){
+            raridade = "Raro"
+            bonus_hp_raridade = 20
+            bonus_dano_raridade = 6
+            bonus_critico_raridade = 4
+        }
+        senao se(sorteio_raridade <= 93){
+            raridade = "Épico"
+            bonus_hp_raridade = 35
+            bonus_dano_raridade = 10
+            bonus_critico_raridade = 6
+        }
+        senao se(sorteio_raridade <= 98){
+            raridade = "Lendário"
+            bonus_hp_raridade = 55
+            bonus_dano_raridade = 15
+            bonus_critico_raridade = 10
+        }
+        senao{
+            raridade = "Mítico"
+            bonus_hp_raridade = 80
+            bonus_dano_raridade = 25
+            bonus_critico_raridade = 15
+        }
+
+        // A RARIDADE ALTERA OS ATRIBUTOS
+        vida_maxima = vida_maxima + bonus_hp_raridade
+        vida_jogador = vida_maxima
+
+        dano_base = dano_base + bonus_dano_raridade
+
+        chance_critico = chance_critico + bonus_critico_raridade
+
+        // ==============================
+        // FICHA
+        // ==============================
+
+        escreva("\n=======================================================")
+        escreva("\n             FICHA DO CAÇADOR GERADA")
+        escreva("\n=======================================================")
+        escreva("\nClã: ", cla)
+        escreva("\nOrigem: ", origen)
+        escreva("\nRespiração: ", respiracao)
+        escreva("\nArma: ", arma)
+        escreva("\nRaridade: ", raridade)
+        escreva("\nBônus da Raridade:")
+        escreva("\n+ ", bonus_hp_raridade, " HP")
+        escreva("\n+ ", bonus_dano_raridade, " Dano")
+        escreva("\n+ ", bonus_critico_raridade, "% Crítico")
+        escreva("\nDano da Respiração: +", dano_respiracao)
+        escreva("\nDano da Arma: +", dano_arma)
+        escreva("\nChance de Crítico: ", chance_critico, "%")
+        escreva("\nVida Máxima: ", vida_maxima)
+        escreva("\n=======================================================\n")
+
+        u.aguarde(1500)
+
+        logico jogando = verdadeiro
+        inteiro nivel_oni = 1
+
+        enquanto (jogando e vida_jogador > 0)
+        {
+            inteiro vida_oni = 0
+            inteiro dano_oni = 0
+            inteiro sorteio_boss
+            cadeia nome_boss = "Nenhum Boss"
+            logico boss = falso
+
+            // ==============================
+            // SISTEMA DE BOSS ALEATÓRIO
+            // A cada 5 vitórias pode aparecer um boss.
+            // Muzan é o mais raro.
+            // ==============================
+
+            se(vitorias > 0 e vitorias % 5 == 0){
+                sorteio_boss = u.sorteia(1, 100)
+
+                // 10% = nenhum boss
+                // 30% = Lua Superior 6
+                // 20% = Lua Superior 5
+                // 15% = Lua Superior 4
+                // 12% = Lua Superior 3
+                // 8%  = Lua Superior 2
+                // 4%  = Lua Superior 1
+                // 1%  = Muzan
+
+                se(sorteio_boss <= 10){
+                    boss = falso
+                }
+                senao se(sorteio_boss <= 40){
+                    boss = verdadeiro
+                    nome_boss = "Lua Superior 6 - Daki e Gyutaro"
+                    vida_oni = 360 + (nivel_oni * 65)
+                    dano_oni = 34 + (nivel_oni * 8)
+                }
+                senao se(sorteio_boss <= 60){
+                    boss = verdadeiro
+                    nome_boss = "Lua Superior 5 - Gyokko"
+                    vida_oni = 430 + (nivel_oni * 70)
+                    dano_oni = 39 + (nivel_oni * 9)
+                }
+                senao se(sorteio_boss <= 75){
+                    boss = verdadeiro
+                    nome_boss = "Lua Superior 4 - Hantengu"
+                    vida_oni = 500 + (nivel_oni * 75)
+                    dano_oni = 44 + (nivel_oni * 9)
+                }
+                senao se(sorteio_boss <= 87){
+                    boss = verdadeiro
+                    nome_boss = "Lua Superior 3 - Akaza"
+                    vida_oni = 580 + (nivel_oni * 80)
+                    dano_oni = 50 + (nivel_oni * 10)
+                }
+                senao se(sorteio_boss <= 95){
+                    boss = verdadeiro
+                    nome_boss = "Lua Superior 2 - Doma"
+                    vida_oni = 660 + (nivel_oni * 85)
+                    dano_oni = 56 + (nivel_oni * 10)
+                }
+                senao se(sorteio_boss <= 99){
+                    boss = verdadeiro
+                    nome_boss = "Lua Superior 1 - Kokushibo"
+                    vida_oni = 760 + (nivel_oni * 95)
+                    dano_oni = 64 + (nivel_oni * 11)
+                }
+                senao{
+                    boss = verdadeiro
+                    nome_boss = "Muzan Kibutsuji"
+                    vida_oni = 1000 + (nivel_oni * 120)
+                    dano_oni = 80 + (nivel_oni * 13)
+                }
+
+                se(boss){
+                    escreva("\n\n=======================================================")
+                    escreva("\n              !!! BOSS APARECEU !!!")
+                    escreva("\n=======================================================")
+                    escreva("\n              ", nome_boss)
+                    escreva("\nNível: ", nivel_oni)
+                    escreva("\nHP: ", vida_oni)
+                    escreva("\nDano: ", dano_oni)
+                    escreva("\nRECOMPENSA ESPECIAL!")
+                    escreva("\n=======================================================")
+                    u.aguarde(1500)
+                }
+                senao{
+                    vida_oni = 100 + (nivel_oni * 25)
+                    dano_oni = 12 + (nivel_oni * 5)
+
+                    escreva("\n\n-------------------------------------------------------")
+                    escreva("\n[MISSÃO] Um Oni Nível ", nivel_oni, " foi localizado!")
+                    escreva("\n-------------------------------------------------------")
+                    u.aguarde(1000)
+                }
+            }
+            senao{
+                vida_oni = 100 + (nivel_oni * 25)
+                dano_oni = 12 + (nivel_oni * 5)
+
+                escreva("\n\n-------------------------------------------------------")
+                escreva("\n[MISSÃO] Um Oni Nível ", nivel_oni, " foi localizado!")
+                escreva("\n-------------------------------------------------------")
+                u.aguarde(1000)
+            }
+
+            enquanto (vida_jogador > 0 e vida_oni > 0)
+            {
+                logico defendendo = falso
+                logico esquivando = falso
+
+                escreva("\n\n--- SEU TURNO (Nível ", nivel, ") ---")
+                escreva("\nHP: ", vida_jogador, "/", vida_maxima)
+                escreva(" | Fôlego: ", energia, "/", energia_maxima)
+                escreva(" | Poções: ", pocoes_cura)
+                escreva(" | Moedas: $", moedas)
+
+                se(boss){
+                    escreva("\nINIMIGO: 👑 ", nome_boss, " | ", vida_oni, " HP")
+                }
+                senao{
+                    escreva("\nInimigo (Oni Lv ", nivel_oni, "): ", vida_oni, " HP")
+                }
+
+                se(turnos_buff_fogo > 0){
+                    escreva(" | [FOGO: ", turnos_buff_fogo, "t]")
+                }
+
+                se(turnos_buff_veneno > 0){
+                    escreva(" | [VENENO: ", turnos_buff_veneno, "t]")
+                }
+
+                escreva("\n1 - Ataque com a ", arma)
+                escreva("\n2 - Técnica (", respiracao, " - 15 Fôlego)")
+                escreva("\n3 - Encantar: Óleos de Fogo (10 Fôlego)")
+                escreva("\n4 - Encantar: Veneno de Glicínia (10 Fôlego)")
+                escreva("\n5 - Postura Defensiva (-50% dano)")
+                escreva("\n6 - Tentar Esquiva")
+                escreva("\n7 - Concentração (+20 Fôlego)")
+                escreva("\n8 - Usar Poção de Cura (+40 HP)")
+                escreva("\nEscolha: ")
+                leia(acao_luta)
+
+                escolha(acao_luta)
+                {
+                    caso 1:
+                        inteiro dmg = dano_base + dano_arma + u.sorteia(-3, 5)
+
+                        se(turnos_buff_fogo > 0){
+                            dmg = dmg + 15
+                        }
+
+                        se(u.sorteia(1, 100) <= chance_critico){
+                            dmg = dmg * 2
+                            escreva("\n[CRÍTICO!] Golpe preciso!")
+                        }
+
+                        vida_oni = vida_oni - dmg
+                        escreva("\n[ATAQUE] Causou ", dmg, " de dano!")
+                        pare
+
+                    caso 2:
+                        se(energia >= 15){
+                            inteiro dmg_esp = (dano_base + dano_arma) + dano_respiracao + u.sorteia(0, 10)
+
+                            se(turnos_buff_fogo > 0){
+                                dmg_esp = dmg_esp + 15
+                            }
+
+                            se(u.sorteia(1, 100) <= chance_critico){
+                                dmg_esp = dmg_esp * 2
+                                escreva("\n[CRÍTICO!] Técnica devastadora!")
+                            }
+
+                            vida_oni = vida_oni - dmg_esp
+                            energia = energia - 15
+
+                            escreva("\n[TÉCNICA] ", respiracao, " causou ", dmg_esp, " de dano!")
+                        }
+                        senao{
+                            escreva("\n[FALHA] Sem fôlego!")
+                        }
+                        pare
+
+                    caso 3:
+                        se(energia >= 10){
+                            turnos_buff_fogo = 3
+                            energia = energia - 10
+                            escreva("\n[BUFF] Lâmina incandescente!")
+                        }
+                        senao{
+                            escreva("\n[FALHA] Energia insuficiente!")
+                        }
+                        pare
+
+                    caso 4:
+                        se(energia >= 10){
+                            turnos_buff_veneno = 3
+                            energia = energia - 10
+                            escreva("\n[BUFF] Veneno aplicado!")
+                        }
+                        senao{
+                            escreva("\n[FALHA] Energia insuficiente!")
+                        }
+                        pare
+
+                    caso 5:
+                        defendendo = verdadeiro
+                        escreva("\n[DEFESA] Postura defensiva!")
+                        pare
+
+                    caso 6:
+                        se(u.sorteia(1, 100) <= 60){
+                            esquivando = verdadeiro
+                            escreva("\n[ESQUIVA] Você se preparou para desviar!")
+                        }
+                        senao{
+                            escreva("\n[FALHA] Esquiva falhou!")
+                        }
+                        pare
+
+                    caso 7:
+                        energia = energia + 20
+
+                        se(energia > energia_maxima){
+                            energia = energia_maxima
+                        }
+
+                        escreva("\n[FOCO] +20 Fôlego!")
+                        pare
+
+                    caso 8:
+                        se(pocoes_cura > 0){
+                            vida_jogador = vida_jogador + 40
+
+                            se(vida_jogador > vida_maxima){
+                                vida_jogador = vida_maxima
+                            }
+
+                            pocoes_cura = pocoes_cura - 1
+                            escreva("\n[CURA] +40 HP!")
+                        }
+                        senao{
+                            escreva("\n[FALHA] Sem poções!")
+                        }
+                        pare
+
+                    caso contrario:
+                        escreva("\nTurno perdido!")
+                }
+
+                u.aguarde(800)
+
+                se(turnos_buff_veneno > 0 e vida_oni > 0){
+                    vida_oni = vida_oni - 20
+                    turnos_buff_veneno = turnos_buff_veneno - 1
+                    escreva("\n[VENENO] Oni sofreu 20 de dano!")
+                }
+
+                se(turnos_buff_fogo > 0){
+                    turnos_buff_fogo = turnos_buff_fogo - 1
+                }
+
+                se(vida_oni > 0)
+                {
+                    se(esquivando){
+                        escreva("\n[ESQUIVA PERFEITA!] Você desviou!")
+                    }
+                    senao{
+                        inteiro dano_causado = dano_oni + u.sorteia(-2, 4)
+
+                        se(defendendo){
+                            dano_causado = dano_causado / 2
+                        }
+
+                        vida_jogador = vida_jogador - dano_causado
+
+                        escreva("\n[INIMIGO] Oni causou ", dano_causado, " de dano.")
+                    }
+
+                    u.aguarde(1000)
+                }
+            }
+
+            // ==============================
+            // VITÓRIA
+            // ==============================
+
+            se(vida_jogador > 0)
+            {
+                vitorias = vitorias + 1
+                xp = xp + 35
+
+                inteiro recompensa
+
+                se(boss){
+                    recompensa = 100 + (nivel_oni * 15)
+
+                    // Bosses mais raros dão recompensas maiores.
+                    se(nome_boss == "Lua Superior 5 - Gyokko"){
+                        recompensa = recompensa + 30
+                    }
+                    senao se(nome_boss == "Lua Superior 4 - Hantengu"){
+                        recompensa = recompensa + 50
+                    }
+                    senao se(nome_boss == "Lua Superior 3 - Akaza"){
+                        recompensa = recompensa + 70
+                    }
+                    senao se(nome_boss == "Lua Superior 2 - Doma"){
+                        recompensa = recompensa + 100
+                    }
+                    senao se(nome_boss == "Lua Superior 1 - Kokushibo"){
+                        recompensa = recompensa + 150
+                    }
+                    senao se(nome_boss == "Muzan Kibutsuji"){
+                        recompensa = recompensa + 300
+                    }
+
+                    xp = xp + 65
+
+                    escreva("\n\n=======================================================")
+                    escreva("\n           👑 BOSS DERROTADO! 👑")
+                    escreva("\n=======================================================")
+                    escreva("\nBoss: ", nome_boss)
+                    escreva("\n+65 XP Bônus")
+                    escreva("\n+$", recompensa, " Moedas")
+                    escreva("\n=======================================================")
+                }
+                senao{
+                    recompensa = 25 + (nivel_oni * 5)
+
+                    escreva("\n\n=======================================================")
+                    escreva("\n[VITÓRIA] Oni derrotado!")
+                    escreva("\n+35 XP | +$", recompensa, " Moedas")
+                    escreva("\n=======================================================")
+                }
+
+                moedas = moedas + recompensa
+
+                turnos_buff_fogo = 0
+                turnos_buff_veneno = 0
+
+                // ==============================
+                // LEVEL UP
+                // ==============================
+
+                se(xp >= xp_necessario){
+                    nivel = nivel + 1
+                    xp = xp - xp_necessario
+                    xp_necessario = xp_necessario + 30
+
+                    vida_maxima = vida_maxima + 20
+                    vida_jogador = vida_maxima
+                    dano_base = dano_base + 5
+
+                    escreva("\n*** SUBIU DE NÍVEL! Nível ", nivel, " ***")
+                    escreva("\n+20 HP Máximo")
+                    escreva("\n+5 Dano")
+                }
+
+                // ==============================
+                // FORJARIA
+                // ==============================
+
+                inteiro menu_op
+
+                escreva("\n\n[FORJARIA DO HAGANEZUKA]")
+                escreva("\nSuas Moedas: $", moedas)
+                escreva("\n1 - Comprar Poção de Cura ($20)")
+                escreva("\n2 - Polir Lâmina (+5 Dano - $50)")
+                escreva("\n3 - Treino Intensivo (+10 HP - $40)")
+                escreva("\n4 - Dormir (HP + Fôlego 100% - $35)")
+                escreva("\n5 - Continuar")
+                escreva("\nEscolha: ")
+                leia(menu_op)
+
+                se(menu_op == 1){
+                    se(moedas >= 20){
+                        moedas = moedas - 20
+                        pocoes_cura = pocoes_cura + 1
+                        escreva("\n[COMPRA] +1 Poção!")
+                    }
+                    senao{
+                        escreva("\n[LOJA] Moedas insuficientes.")
+                    }
+                }
+                senao se(menu_op == 2){
+                    se(moedas >= 50){
+                        moedas = moedas - 50
+                        dano_arma = dano_arma + 5
+                        escreva("\n[MELHORIA] +5 Dano!")
+                    }
+                    senao{
+                        escreva("\n[LOJA] Moedas insuficientes.")
+                    }
+                }
+                senao se(menu_op == 3){
+                    se(moedas >= 40){
+                        moedas = moedas - 40
+                        vida_maxima = vida_maxima + 10
+                        vida_jogador = vida_jogador + 10
+                        escreva("\n[TREINO] +10 HP!")
+                    }
+                    senao{
+                        escreva("\n[LOJA] Moedas insuficientes.")
+                    }
+                }
+                senao se(menu_op == 4){
+                    se(moedas >= 35){
+                        moedas = moedas - 35
+                        vida_jogador = vida_maxima
+                        energia = energia_maxima
+                        escreva("\n[DESCANSO] HP e Fôlego restaurados!")
+                    }
+                    senao{
+                        escreva("\n[LOJA] Moedas insuficientes.")
+                    }
+                }
+
+                nivel_oni = nivel_oni + 1
+            }
+        }
+
+        escreva("\n=======================================================")
+        escreva("\nFIM DE JOGO | Onis Derrotados: ", vitorias)
+        escreva("\nNível: ", nivel)
+        escreva("\nRaridade: ", raridade)
+        escreva("\n=======================================================\n")
+    }
+
+
+    // =====================================================
+    //                       ONI
+    // =====================================================
+
+    funcao demonio()
+    {
+        // =====================================================
+        // HISTÓRIA + TUTORIAL DO ONI
+        // =====================================================
+
+        escreva("\n=======================================================")
+        escreva("\n                CAMINHO DO ONI")
+        escreva("\n=======================================================")
+        escreva("\nVocê abre os olhos em uma floresta desconhecida.")
+        escreva("\nSeu corpo está ferido e você sente uma fome estranha.")
+        escreva("\nVocê não sabe como chegou naquele lugar.")
+        u.aguarde(1600)
+
+        escreva("\n\n-------------------------------------------------------")
+        escreva("\n                    SUA HISTÓRIA")
+        escreva("\n-------------------------------------------------------")
+        escreva("\nAntes disso, você estava em casa jogando no computador.")
+        escreva("\nA tela começou a brilhar e uma força puxou você")
+        escreva("\npara dentro dela.")
+        escreva("\nQuando abriu os olhos, estava no Japão da Era Taisho.")
+        escreva("\nEra noite, e uma presença assustadora se aproximava.")
+        u.aguarde(1800)
+
+        escreva("\n\nUm demônio encontrou você quase sem forças.")
+        escreva("\nEle ofereceu uma escolha: morrer como humano")
+        escreva("\nou aceitar o sangue demoníaco e sobreviver.")
+        escreva("\nSem entender o que estava acontecendo, você aceitou.")
+        escreva("\nSeu corpo mudou e novos poderes despertaram.")
+        u.aguarde(1800)
+
+        escreva("\n\nAgora você faz parte do mundo dos Onis.")
+        escreva("\nCaçadores vão tentar destruir você, então terá")
+        escreva("\nque usar seus poderes para sobreviver.")
+        u.aguarde(1500)
+
+        escreva("\n\n-------------------------------------------------------")
+        escreva("\n                    TUTORIAL")
+        escreva("\n-------------------------------------------------------")
+        escreva("\n1 - Golpe de Garras")
+        escreva("\n2 - Use seu Kekkijutsu")
+        escreva("\n3 - Fortaleça as Garras")
+        escreva("\n4 - Defesa Demoníaca")
+        escreva("\n5 - Mover nas Sombras")
+        escreva("\n6 - Regeneração")
+        escreva("\n7 - Elixir de Sangue")
+        escreva("\n\nDerrote caçadores para ganhar XP e essência.")
+        escreva("\nA cada 5 vitórias, um Hashira pode aparecer.")
+        escreva("\nYoriichi é um inimigo extremamente raro.")
+        escreva("\nSua raridade também aumenta seus atributos.")
+        u.aguarde(2200)
+
+        escreva("\n\n=======================================================")
+        escreva("\n              TUTORIAL DO ONI CONCLUÍDO")
+        escreva("\n=======================================================\n")
+        u.aguarde(1200)
+
+        cadeia cla, origen, arte_demoniaca, raridade
+        inteiro acao_luta
+
+        inteiro nivel = 1
+        inteiro xp = 0
+        inteiro xp_necessario = 50
+        inteiro vitorias = 0
+        inteiro essencia_sangue = 50
+
+        inteiro vida_maxima = 150
+        inteiro vida_jogador = 150
+        inteiro sangue_maximo = 50
+        inteiro sangue_mutante = 50
+        inteiro dano_base = 18
+        inteiro dano_arte = 0
+        inteiro elixires_sangue = 2
+        inteiro chance_critico = 15
+
+        inteiro bonus_hp_raridade = 0
+        inteiro bonus_dano_raridade = 0
+        inteiro bonus_critico_raridade = 0
+
+        inteiro turnos_buff_garras = 0
+
+        // ==============================
+        // SORTEIO DO KEKKIJUTSU
+        // ==============================
+
+        inteiro sorteio = u.sorteia(0, 1000)
+
+        se(sorteio <= 300){
+            cla = "Devorador da Noite"
+            origen = "Humano Transformado por Acaso"
+            arte_demoniaca = "Sangue Corrosivo"
+            dano_arte = 12
+        }
+        senao se(sorteio <= 500){
+            cla = "Linhagem de Akaza"
+            origen = "Lutador Consumido pela Escuridão"
+            arte_demoniaca = "Impacto Destrutivo"
+            dano_arte = 28
+            chance_critico = 25
+        }
+        senao se(sorteio <= 650){
+            cla = "Linhagem de Rui"
+            origen = "Humano Transformado por Muzan"
+            arte_demoniaca = "Fios de Sangue"
+            dano_base = 25
+            dano_arte = 35
+            chance_critico = 28
+        }
+        senao se(sorteio <= 800){
+            cla = "Linhagem de Kyogai"
+            origen = "Músico Transformado"
+            arte_demoniaca = "Tambores Demoníacos"
+            dano_base = 28
+            dano_arte = 45
+            chance_critico = 30
+        }
+        senao se(sorteio <= 900){
+            cla = "Linhagem de Nakime"
+            origen = "Artista Corrompida"
+            arte_demoniaca = "Flechas de Sangue"
+            dano_base = 32
+            dano_arte = 55
+            chance_critico = 35
+        }
+        senao se(sorteio <= 980){
+            cla = "Linhagem de Kokushibo"
+            origen = "Espadachim Corrompido"
+            arte_demoniaca = "Lâminas da Lua Crescente"
+            dano_base = 30
+            dano_arte = 60
+            chance_critico = 35
+        }
+        senao{
+            cla = "Linhagem de Muzan"
+            origen = "Rei dos Demônios"
+            arte_demoniaca = "Chicotadas de Sangue"
+            dano_base = 50
+            dano_arte = 70
+            chance_critico = 40
+        }
+
+        // ==============================
+        // RARIDADE DO ONI
+        // ==============================
+
+        inteiro sorteio_raridade = u.sorteia(1, 100)
+
+        se(sorteio_raridade <= 40){
+            raridade = "Comum"
+            bonus_hp_raridade = 0
+            bonus_dano_raridade = 0
+            bonus_critico_raridade = 0
+        }
+        senao se(sorteio_raridade <= 65){
+            raridade = "Incomum"
+            bonus_hp_raridade = 15
+            bonus_dano_raridade = 4
+            bonus_critico_raridade = 2
+        }
+        senao se(sorteio_raridade <= 82){
+            raridade = "Raro"
+            bonus_hp_raridade = 30
+            bonus_dano_raridade = 8
+            bonus_critico_raridade = 5
+        }
+        senao se(sorteio_raridade <= 93){
+            raridade = "Épico"
+            bonus_hp_raridade = 50
+            bonus_dano_raridade = 12
+            bonus_critico_raridade = 8
+        }
+        senao se(sorteio_raridade <= 98){
+            raridade = "Lendário"
+            bonus_hp_raridade = 75
+            bonus_dano_raridade = 18
+            bonus_critico_raridade = 12
+        }
+        senao{
+            raridade = "Mítico"
+            bonus_hp_raridade = 110
+            bonus_dano_raridade = 30
+            bonus_critico_raridade = 18
+        }
+
+        // RARIDADE ALTERA OS ATRIBUTOS
+
+        vida_maxima = vida_maxima + bonus_hp_raridade
+        vida_jogador = vida_maxima
+
+        dano_base = dano_base + bonus_dano_raridade
+
+        chance_critico = chance_critico + bonus_critico_raridade
+
+        // ==============================
+        // FICHA DO ONI
+        // ==============================
+
+        escreva("\n=======================================================")
+        escreva("\n               FICHA DO ONI GERADA")
+        escreva("\n=======================================================")
+        escreva("\nLinhagem: ", cla)
+        escreva("\nOrigem: ", origen)
+        escreva("\nKekkijutsu: ", arte_demoniaca)
+        escreva("\nRaridade: ", raridade)
+        escreva("\nBônus da Raridade:")
+        escreva("\n+ ", bonus_hp_raridade, " HP")
+        escreva("\n+ ", bonus_dano_raridade, " Dano")
+        escreva("\n+ ", bonus_critico_raridade, "% Crítico")
+        escreva("\nDano do Kekkijutsu: +", dano_arte)
+        escreva("\nChance de Crítico: ", chance_critico, "%")
+        escreva("\nVida Máxima: ", vida_maxima)
+        escreva("\n=======================================================\n")
+
+        u.aguarde(1500)
+
+        logico jogando = verdadeiro
+        inteiro nivel_cacador = 1
+
+        enquanto(jogando e vida_jogador > 0)
+        {
+            inteiro vida_cacador
+            inteiro dano_cacador
+            inteiro sorteio_hashira
+            cadeia nome_hashira = "Nenhum Hashira"
+            logico boss = falso
+
+            // ==============================
+            // HASHIRAS E YORIICHI
+            // A cada 5 vitórias aparece um
+            // caçador especial aleatório.
+            // Yoriichi é extremamente raro.
+            // ==============================
+
+            se(vitorias > 0 e vitorias % 5 == 0){
+                boss = verdadeiro
+                sorteio_hashira = u.sorteia(1, 100)
+
+                se(sorteio_hashira <= 10){
+                    nome_hashira = "Giyu Tomioka - Hashira da Água"
+                    vida_cacador = 320 + (nivel_cacador * 60)
+                    dano_cacador = 32 + (nivel_cacador * 8)
+                }
+                senao se(sorteio_hashira <= 20){
+                    nome_hashira = "Kyojuro Rengoku - Hashira das Chamas"
+                    vida_cacador = 340 + (nivel_cacador * 62)
+                    dano_cacador = 35 + (nivel_cacador * 9)
+                }
+                senao se(sorteio_hashira <= 30){
+                    nome_hashira = "Tengen Uzui - Hashira do Som"
+                    vida_cacador = 350 + (nivel_cacador * 64)
+                    dano_cacador = 36 + (nivel_cacador * 9)
+                }
+                senao se(sorteio_hashira <= 40){
+                    nome_hashira = "Sanemi Shinazugawa - Hashira do Vento"
+                    vida_cacador = 370 + (nivel_cacador * 66)
+                    dano_cacador = 39 + (nivel_cacador * 9)
+                }
+                senao se(sorteio_hashira <= 50){
+                    nome_hashira = "Muichiro Tokito - Hashira da Névoa"
+                    vida_cacador = 330 + (nivel_cacador * 61)
+                    dano_cacador = 34 + (nivel_cacador * 8)
+                }
+                senao se(sorteio_hashira <= 60){
+                    nome_hashira = "Mitsuri Kanroji - Hashira do Amor"
+                    vida_cacador = 340 + (nivel_cacador * 63)
+                    dano_cacador = 37 + (nivel_cacador * 9)
+                }
+                senao se(sorteio_hashira <= 70){
+                    nome_hashira = "Obanai Iguro - Hashira da Serpente"
+                    vida_cacador = 345 + (nivel_cacador * 63)
+                    dano_cacador = 38 + (nivel_cacador * 9)
+                }
+                senao se(sorteio_hashira <= 80){
+                    nome_hashira = "Shinobu Kocho - Hashira do Inseto"
+                    vida_cacador = 300 + (nivel_cacador * 58)
+                    dano_cacador = 31 + (nivel_cacador * 8)
+                }
+                senao se(sorteio_hashira <= 90){
+                    nome_hashira = "Gyomei Himejima - Hashira da Pedra"
+                    vida_cacador = 420 + (nivel_cacador * 75)
+                    dano_cacador = 45 + (nivel_cacador * 10)
+                }
+                senao se(sorteio_hashira <= 99){
+                    nome_hashira = "Hashira Especial"
+                    vida_cacador = 400 + (nivel_cacador * 70)
+                    dano_cacador = 43 + (nivel_cacador * 10)
+                }
+                senao{
+                    nome_hashira = "Yoriichi Tsugikuni - Espadachim do Sol"
+                    vida_cacador = 900 + (nivel_cacador * 110)
+                    dano_cacador = 85 + (nivel_cacador * 13)
+                }
+
+                escreva("\n\n=======================================================")
+                escreva("\n             !!! BOSS APARECEU !!!")
+                escreva("\n=======================================================")
+                escreva("\n               ", nome_hashira)
+                escreva("\nNível: ", nivel_cacador)
+                escreva("\nHP: ", vida_cacador)
+                escreva("\nDano: ", dano_cacador)
+                escreva("\nRECOMPENSA ESPECIAL!")
+                escreva("\n=======================================================")
+
+                u.aguarde(1500)
+            }
+            senao{
+                vida_cacador = 90 + (nivel_cacador * 20)
+                dano_cacador = 14 + (nivel_cacador * 4)
+
+                escreva("\n\n-------------------------------------------------------")
+                escreva("\n[CAÇADA] Um Caçador Nível ", nivel_cacador, " aparece!")
+                escreva("\n-------------------------------------------------------")
+
+                u.aguarde(1000)
+            }
+
+            enquanto(vida_jogador > 0 e vida_cacador > 0)
+            {
+                logico defendendo = falso
+                logico esquivando = falso
+
+                escreva("\n\n--- SEU TURNO ONI (Nível ", nivel, ") ---")
+                escreva("\nHP: ", vida_jogador, "/", vida_maxima)
+                escreva(" | Sangue: ", sangue_mutante, "/", sangue_maximo)
+                escreva(" | Elixires: ", elixires_sangue)
+                escreva(" | Essência: ", essencia_sangue)
+
+                se(boss){
+                    escreva("\nINIMIGO: 👑 ", nome_hashira, " | ", vida_cacador, " HP")
+                }
+                senao{
+                    escreva("\nInimigo (Caçador Lv ", nivel_cacador, "): ", vida_cacador, " HP")
+                }
+
+                se(turnos_buff_garras > 0){
+                    escreva(" | [GARRAS: ", turnos_buff_garras, "t]")
+                }
+
+                escreva("\n1 - Golpe de Garras")
+                escreva("\n2 - Ativar Kekkijutsu (20 Sangue)")
+                escreva("\n3 - Mutação: Garras (+20 Dano)")
+                escreva("\n4 - Dureza Demoníaca (-50% dano)")
+                escreva("\n5 - Mover nas Sombras")
+                escreva("\n6 - Regeneração (+35 HP - 15 Sangue)")
+                escreva("\n7 - Elixir de Sangue (+30 Sangue)")
+                escreva("\nEscolha: ")
+                leia(acao_luta)
+
+                escolha(acao_luta)
+                {
+                    caso 1:
+                        inteiro dmg = dano_base + u.sorteia(-2, 4)
+
+                        se(turnos_buff_garras > 0){
+                            dmg = dmg + 20
+                        }
+
+                        se(u.sorteia(1, 100) <= chance_critico){
+                            dmg = dmg * 2
+                            escreva("\n[CRÍTICO!] Ataque demoníaco!")
+                        }
+
+                        vida_cacador = vida_cacador - dmg
+
+                        escreva("\n[ATAQUE] Causou ", dmg, " de dano!")
+                        pare
+
+                    caso 2:
+                        se(sangue_mutante >= 20){
+                            inteiro dmg_esp = dano_base + dano_arte + u.sorteia(0, 8)
+
+                            se(turnos_buff_garras > 0){
+                                dmg_esp = dmg_esp + 20
+                            }
+
+                            se(u.sorteia(1, 100) <= chance_critico){
+                                dmg_esp = dmg_esp * 2
+                                escreva("\n[CRÍTICO!] Kekkijutsu devastador!")
+                            }
+
+                            vida_cacador = vida_cacador - dmg_esp
+                            sangue_mutante = sangue_mutante - 20
+
+                            escreva("\n[KEKKIJUTSU] ", arte_demoniaca)
+                            escreva(" causou ", dmg_esp, " de dano!")
+                        }
+                        senao{
+                            escreva("\n[FALHA] Sangue insuficiente!")
+                        }
+                        pare
+
+                    caso 3:
+                        se(sangue_mutante >= 15){
+                            turnos_buff_garras = 3
+                            sangue_mutante = sangue_mutante - 15
+
+                            escreva("\n[MUTAÇÃO] Garras fortalecidas!")
+                        }
+                        senao{
+                            escreva("\n[FALHA] Sangue insuficiente!")
+                        }
+                        pare
+
+                    caso 4:
+                        defendendo = verdadeiro
+                        escreva("\n[DEFESA] Pele enrijecida!")
+                        pare
+
+                    caso 5:
+                        se(u.sorteia(1, 100) <= 60){
+                            esquivando = verdadeiro
+                            escreva("\n[SOMBRAS] Você desapareceu!")
+                        }
+                        senao{
+                            escreva("\n[FALHA] Esquiva falhou!")
+                        }
+                        pare
+
+                    caso 6:
+                        se(sangue_mutante >= 15){
+                            vida_jogador = vida_jogador + 35
+
+                            se(vida_jogador > vida_maxima){
+                                vida_jogador = vida_maxima
+                            }
+
+                            sangue_mutante = sangue_mutante - 15
+
+                            escreva("\n[REGENERAÇÃO] +35 HP!")
+                        }
+                        senao{
+                            escreva("\n[FALHA] Sangue insuficiente!")
+                        }
+                        pare
+
+                    caso 7:
+                        se(elixires_sangue > 0){
+                            sangue_mutante = sangue_mutante + 30
+
+                            se(sangue_mutante > sangue_maximo){
+                                sangue_mutante = sangue_maximo
+                            }
+
+                            elixires_sangue = elixires_sangue - 1
+
+                            escreva("\n[CONSUMO] +30 Sangue!")
+                        }
+                        senao{
+                            escreva("\n[FALHA] Sem elixires!")
+                        }
+                        pare
+
+                    caso contrario:
+                        escreva("\nTurno perdido!")
+                }
+
+                u.aguarde(800)
+
+                se(turnos_buff_garras > 0){
+                    turnos_buff_garras = turnos_buff_garras - 1
+                }
+
+                se(vida_cacador > 0)
+                {
+                    se(esquivando){
+                        escreva("\n[ESQUIVA PERFEITA!] O golpe passou direto!")
+                    }
+                    senao{
+                        inteiro dano_causado = dano_cacador + u.sorteia(-3, 5)
+
+                        se(defendendo){
+                            dano_causado = dano_causado / 2
+                        }
+
+                        vida_jogador = vida_jogador - dano_causado
+
+                        escreva("\n[INIMIGO] Caçador causou ", dano_causado, " de dano.")
+                    }
+
+                    u.aguarde(1000)
+                }
+            }
+
+            // ==============================
+            // VITÓRIA DO ONI
+            // ==============================
+
+            se(vida_jogador > 0)
+            {
+                vitorias = vitorias + 1
+                xp = xp + 35
+
+                inteiro recompensa
+
+                se(boss){
+                    recompensa = 100 + (nivel_cacador * 15)
+                    xp = xp + 65
+
+                    escreva("\n\n=======================================================")
+                    escreva("\n             👑 ", nome_hashira, " DERROTADO! 👑")
+                    escreva("\n=======================================================")
+                    escreva("\n+100 XP Bônus")
+                    escreva("\n+", recompensa, " Essência")
+                    escreva("\n=======================================================")
+                }
+                senao{
+                    recompensa = 25 + (nivel_cacador * 5)
+
+                    escreva("\n\n=======================================================")
+                    escreva("\n[VITÓRIA] Caçador devorado!")
+                    escreva("\n+35 XP | +", recompensa, " Essência")
+                    escreva("\n=======================================================")
+                }
+
+                essencia_sangue = essencia_sangue + recompensa
+
+                turnos_buff_garras = 0
+
+                // ==============================
+                // LEVEL UP
+                // ==============================
+
+                se(xp >= xp_necessario){
+                    nivel = nivel + 1
+                    xp = xp - xp_necessario
+                    xp_necessario = xp_necessario + 30
+
+                    vida_maxima = vida_maxima + 30
+                    vida_jogador = vida_maxima
+                    dano_base = dano_base + 6
+
+                    escreva("\n*** SUBIU DE NÍVEL ONI! Nível ", nivel, " ***")
+                    escreva("\n+30 HP Máximo")
+                    escreva("\n+6 Dano")
+                }
+
+                // ==============================
+                // ALTAR DE MUZAN
+                // ==============================
+
+                inteiro menu_op
+
+                escreva("\n\n[ALTAR DE SANGUE DE MUZAN]")
+                escreva("\nSua Essência: ", essencia_sangue)
+                escreva("\n1 - Comprar Elixir (20 Essência)")
+                escreva("\n2 - Fortalecer Carne (+6 Dano - 50 Essência)")
+                escreva("\n3 - Mutação Celular (+15 HP - 40 Essência)")
+                escreva("\n4 - Regeneração Absoluta (HP + Sangue 100% - 40 Essência)")
+                escreva("\n5 - Caçar Novamente")
+                escreva("\nEscolha: ")
+                leia(menu_op)
+
+                se(menu_op == 1){
+                    se(essencia_sangue >= 20){
+                        essencia_sangue = essencia_sangue - 20
+                        elixires_sangue = elixires_sangue + 1
+
+                        escreva("\n[COMPRA] +1 Elixir!")
+                    }
+                    senao{
+                        escreva("\n[ALTAR] Essência insuficiente.")
+                    }
+                }
+                senao se(menu_op == 2){
+                    se(essencia_sangue >= 50){
+                        essencia_sangue = essencia_sangue - 50
+                        dano_base = dano_base + 6
+
+                        escreva("\n[MELHORIA] +6 Dano permanente!")
+                    }
+                    senao{
+                        escreva("\n[ALTAR] Essência insuficiente.")
+                    }
+                }
+                senao se(menu_op == 3){
+                    se(essencia_sangue >= 40){
+                        essencia_sangue = essencia_sangue - 40
+                        vida_maxima = vida_maxima + 15
+                        vida_jogador = vida_jogador + 15
+
+                        escreva("\n[MUTAÇÃO] +15 HP Máximo!")
+                    }
+                    senao{
+                        escreva("\n[ALTAR] Essência insuficiente.")
+                    }
+                }
+                senao se(menu_op == 4){
+                    se(essencia_sangue >= 40){
+                        essencia_sangue = essencia_sangue - 40
+                        vida_jogador = vida_maxima
+                        sangue_mutante = sangue_maximo
+
+                        escreva("\n[REGENERAÇÃO] HP e Sangue completamente restaurados!")
+                    }
+                    senao{
+                        escreva("\n[ALTAR] Essência insuficiente.")
+                    }
+                }
+
+                nivel_cacador = nivel_cacador + 1
+            }
+        }
+
+        escreva("\n=======================================================")
+        escreva("\nFIM DE JOGO")
+        escreva("\nCaçadores Devorados: ", vitorias)
+        escreva("\nNível: ", nivel)
+        escreva("\nRaridade: ", raridade)
+        escreva("\n=======================================================\n")
+    }
+}
